@@ -1,0 +1,63 @@
+<group name="soc_ready_ids,">
+  <rule id="100100" level="3">
+    <decoded_as>soc-ready-ids</decoded_as>
+    <description>SOC-ready IDS raw flow received for ML triage</description>
+    <group>soc_ready_ids_raw,</group>
+  </rule>
+
+  <rule id="100101" level="1">
+    <if_sid>100100</if_sid>
+    <field name="attack_type" type="pcre2">(?i)^(BENIGN|NORMAL)$</field>
+    <description>SOC-ready IDS benign flow</description>
+    <group>soc_ready_ids_raw,</group>
+  </rule>
+
+  <rule id="100102" level="7">
+    <if_sid>100100</if_sid>
+    <field name="attack_type" type="pcre2">(?i)(scan|recon)</field>
+    <description>SOC-ready IDS reconnaissance or scanning flow</description>
+    <group>soc_ready_ids_raw,reconnaissance,</group>
+  </rule>
+
+  <rule id="100103" level="10">
+    <if_sid>100100</if_sid>
+    <field name="attack_type" type="pcre2">(?i)(dos|ddos)</field>
+    <description>SOC-ready IDS denial-of-service flow</description>
+    <group>soc_ready_ids_raw,availability,</group>
+  </rule>
+
+  <rule id="100104" level="11">
+    <if_sid>100100</if_sid>
+    <field name="attack_type" type="pcre2">(?i)(patator|brute|theft)</field>
+    <description>SOC-ready IDS credential or theft flow</description>
+    <group>soc_ready_ids_raw,credential_access,</group>
+  </rule>
+
+  <rule id="100105" level="13">
+    <if_sid>100100</if_sid>
+    <field name="attack_type" type="pcre2">(?i)(bot|infiltration)</field>
+    <description>SOC-ready IDS critical compromise flow</description>
+    <group>soc_ready_ids_raw,command_and_control,</group>
+  </rule>
+
+  <rule id="100110" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="integration">^soc-ready-ids$</field>
+    <description>SOC-ready IDS enriched alert: $(attack_type), risk $(risk_score)</description>
+    <group>soc_ready_ids_enriched,</group>
+  </rule>
+
+  <rule id="100111" level="10">
+    <if_sid>100110</if_sid>
+    <field name="risk_tier">^High$</field>
+    <description>High-risk SOC-ready IDS alert: $(attack_type)</description>
+    <group>soc_ready_ids_enriched,high_risk,</group>
+  </rule>
+
+  <rule id="100112" level="14">
+    <if_sid>100110</if_sid>
+    <field name="risk_tier">^Critical$</field>
+    <description>Critical SOC-ready IDS alert: $(attack_type)</description>
+    <group>soc_ready_ids_enriched,critical_risk,</group>
+  </rule>
+</group>

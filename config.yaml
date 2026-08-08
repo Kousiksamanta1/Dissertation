@@ -1,0 +1,134 @@
+project:
+  name: SOC-Ready Explainable IDS Triage
+  random_state: 42
+  ethics_ref: 77771/2026
+
+paths:
+  raw_data_dir: data/raw
+  cicids2017_raw_dir: CIC-IDS2017
+  bot_iot_raw_dir: BOT-IOT
+  processed_data_dir: data/processed/{dataset}
+  external_data_dir: data/external
+  model_dir: models/saved/{dataset}
+  results_dir: results/{dataset}
+  figure_dir: results/{dataset}/figures
+  shap_dir: results/{dataset}/shap
+  lime_dir: results/{dataset}/lime
+  explanation_dir: results/{dataset}/explanations
+  metrics_dir: results/{dataset}/metrics
+  report_dir: reports/{dataset}
+  wazuh_dir: wazuh
+  sqlite_db: data/runtime/{dataset}/alerts.db
+
+data:
+  dataset: cicids2017
+  label_column: Label
+  label_columns:
+    cicids2017: Label
+    bot-iot: category
+    combined: common_label
+  test_size: 0.2
+  # Laptop-safe deterministic samples spanning every source file.
+  # Set either value to null only when sufficient memory is available.
+  max_rows:
+    cicids2017: 100000
+    bot-iot: 100000
+    combined: 100000
+  # Independent baselines keep the dissertation top-20 feature selector.
+  # The simultaneous unified model keeps more source-native features because
+  # the heterogeneous CICIDS2017 "Other Attack" class needs richer evidence
+  # than the 15 shared aggregate features alone.
+  top_k_features:
+    cicids2017: 20
+    bot-iot: 20
+    combined: 80
+  # "union" trains one model on both source-native schemas plus shared derived
+  # flow features. Set to "shared" to reproduce the older 15-feature model.
+  combined_feature_mode: union
+  drop_invalid_rows:
+    cicids2017: true
+    # Normal ARP flows contain expected null ports; impute instead of dropping.
+    bot-iot: false
+    combined: false
+  numeric_detection_threshold: 0.98
+  metadata_columns:
+    - Flow ID
+    - Source IP
+    - Src IP
+    - Destination IP
+    - Dst IP
+    - Timestamp
+    - source_file
+    - source_dataset
+    - pkSeqID
+    - saddr
+    - daddr
+    - stime
+    - ltime
+  drop_columns:
+    cicids2017: []
+    bot-iot:
+      - attack
+      - category
+      - subcategory
+    combined:
+      - Label
+      - label
+      - attack
+      - category
+      - subcategory
+
+feature_selection:
+  max_rows: 100000
+  rfe_estimators: 120
+  rfe_step: 0.1
+
+models:
+  best_model_metric: f1_macro
+  random_forest:
+    n_estimators: 300
+    max_depth: null
+    min_samples_leaf: 1
+    n_jobs: -1
+    use_smote: true
+  xgboost:
+    optuna_trials: 50
+    timeout_seconds: null
+    n_estimators: 400
+    max_depth: 8
+    learning_rate: 0.05
+    subsample: 0.9
+    colsample_bytree: 0.9
+  autoencoder:
+    latent_dim: 16
+    hidden_dim: 64
+    epochs: 30
+    batch_size: 256
+    learning_rate: 0.001
+    threshold_percentile: 95
+
+explainability:
+  max_background_samples: 200
+  max_explanation_samples: 100
+  top_n_local_features: 3
+  lime_num_features: 10
+
+evaluation:
+  max_base_alerts: 100
+  duplicate_repetitions: 4
+
+triage:
+  critical_threshold: 85
+  high_threshold: 65
+  medium_threshold: 40
+  duplicate_window_seconds: 60
+  duplicate_threshold: 3
+  cluster_window_minutes: 5
+  storm_alerts_per_minute: 50
+  embedding_method: numeric_pca
+  hdbscan_min_cluster_size: 5
+
+api:
+  host: 127.0.0.1
+  port: 5000
+  page_size: 50

@@ -1,0 +1,207 @@
+{
+  "best_model": "xgboost_ids",
+  "selection_metric": "f1_macro",
+  "selection_score": 0.9845079483860484,
+  "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/xgboost_ids.joblib",
+  "all_results": [
+    {
+      "model": "random_forest",
+      "metrics": {
+        "model": "random_forest",
+        "task": "multiclass",
+        "samples": 20000,
+        "accuracy": 0.99835,
+        "precision_macro": 0.9719331662906312,
+        "recall_macro": 0.9894046166340787,
+        "f1_macro": 0.9801619254237292,
+        "precision_weighted": 0.9984051688252499,
+        "recall_weighted": 0.99835,
+        "f1_weighted": 0.998368162628043,
+        "classification_report": {
+          "BENIGN": {
+            "precision": 0.997950119576358,
+            "recall": 0.99840492195511,
+            "f1-score": 0.9981774689600182,
+            "support": 8777.0
+          },
+          "DDoS": {
+            "precision": 0.9998332499583125,
+            "recall": 0.9993333333333333,
+            "f1-score": 0.9995832291406185,
+            "support": 6000.0
+          },
+          "DoS": {
+            "precision": 0.999382461918485,
+            "recall": 0.9979445015416238,
+            "f1-score": 0.9986629641057286,
+            "support": 4865.0
+          },
+          "Other Attack": {
+            "precision": 0.8625,
+            "recall": 0.9583333333333334,
+            "f1-score": 0.9078947368421053,
+            "support": 72.0
+          },
+          "Reconnaissance": {
+            "precision": 1.0,
+            "recall": 0.993006993006993,
+            "f1-score": 0.9964912280701754,
+            "support": 286.0
+          },
+          "accuracy": 0.99835,
+          "macro avg": {
+            "precision": 0.9719331662906312,
+            "recall": 0.9894046166340787,
+            "f1-score": 0.9801619254237292,
+            "support": 20000.0
+          },
+          "weighted avg": {
+            "precision": 0.9984051688252499,
+            "recall": 0.99835,
+            "f1-score": 0.998368162628043,
+            "support": 20000.0
+          }
+        },
+        "roc_auc_per_class": {
+          "BENIGN": 0.999957453621478,
+          "DDoS": 0.9999941369047619,
+          "DoS": 0.9999884424896723,
+          "Other Attack": 0.9992971224184843,
+          "Reconnaissance": 0.9999909545663831
+        },
+        "roc_auc_macro_ovr": 0.9998456220001559,
+        "binary_attack_precision_macro": 0.9983511182604137,
+        "binary_attack_recall_macro": 0.9984005363584691,
+        "binary_attack_f1_macro": 0.9983757855449766,
+        "binary_attack_roc_auc": 0.999957453621478
+      },
+      "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/random_forest.joblib"
+    },
+    {
+      "model": "xgboost_ids",
+      "metrics": {
+        "model": "xgboost_ids",
+        "task": "multiclass",
+        "samples": 20000,
+        "accuracy": 0.99875,
+        "precision_macro": 0.9855611306061342,
+        "recall_macro": 0.9834659314245473,
+        "f1_macro": 0.9845079483860484,
+        "precision_weighted": 0.9987504177569719,
+        "recall_weighted": 0.99875,
+        "f1_weighted": 0.9987497186069658,
+        "classification_report": {
+          "BENIGN": {
+            "precision": 0.9984061930783242,
+            "recall": 0.9992024609775549,
+            "f1-score": 0.998804168327544,
+            "support": 8777.0
+          },
+          "DDoS": {
+            "precision": 0.9996666111018503,
+            "recall": 0.9995,
+            "f1-score": 0.9995832986082174,
+            "support": 6000.0
+          },
+          "DoS": {
+            "precision": 0.9991772932949403,
+            "recall": 0.9985611510791367,
+            "f1-score": 0.9988691271717899,
+            "support": 4865.0
+          },
+          "Other Attack": {
+            "precision": 0.9305555555555556,
+            "recall": 0.9305555555555556,
+            "f1-score": 0.9305555555555556,
+            "support": 72.0
+          },
+          "Reconnaissance": {
+            "precision": 1.0,
+            "recall": 0.9895104895104895,
+            "f1-score": 0.9947275922671354,
+            "support": 286.0
+          },
+          "accuracy": 0.99875,
+          "macro avg": {
+            "precision": 0.9855611306061342,
+            "recall": 0.9834659314245473,
+            "f1-score": 0.9845079483860484,
+            "support": 20000.0
+          },
+          "weighted avg": {
+            "precision": 0.9987504177569719,
+            "recall": 0.99875,
+            "f1-score": 0.9987497186069658,
+            "support": 20000.0
+          }
+        },
+        "roc_auc_per_class": {
+          "BENIGN": 0.9999877873315768,
+          "DDoS": 0.9999973928571428,
+          "DoS": 0.9999838113368854,
+          "Other Attack": 0.9998334281190062,
+          "Reconnaissance": 0.999999645277113
+        },
+        "roc_auc_macro_ovr": 0.9999604129843449,
+        "binary_attack_precision_macro": 0.9988910423308882,
+        "binary_attack_recall_macro": 0.9989775113405996,
+        "binary_attack_f1_macro": 0.9989341488725381,
+        "binary_attack_roc_auc": 0.9999877873315768
+      },
+      "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/xgboost_ids.joblib"
+    },
+    {
+      "model": "autoencoder_ids",
+      "metrics": {
+        "model": "autoencoder_ids",
+        "task": "binary_anomaly",
+        "samples": 20000,
+        "accuracy": 0.9537,
+        "precision_macro": 0.9528499879246375,
+        "recall_macro": 0.9531831975082583,
+        "f1_macro": 0.9530143554032314,
+        "precision_weighted": 0.9537213749893217,
+        "recall_weighted": 0.9537,
+        "f1_weighted": 0.953708513798801,
+        "classification_report": {
+          "BENIGN": {
+            "precision": 0.9457249914840468,
+            "recall": 0.9489575025635183,
+            "f1-score": 0.9473384895359418,
+            "support": 8777.0
+          },
+          "ATTACK": {
+            "precision": 0.9599749843652282,
+            "recall": 0.9574088924529983,
+            "f1-score": 0.9586902212705211,
+            "support": 11223.0
+          },
+          "accuracy": 0.9537,
+          "macro avg": {
+            "precision": 0.9528499879246375,
+            "recall": 0.9531831975082583,
+            "f1-score": 0.9530143554032314,
+            "support": 20000.0
+          },
+          "weighted avg": {
+            "precision": 0.9537213749893217,
+            "recall": 0.9537,
+            "f1-score": 0.953708513798801,
+            "support": 20000.0
+          }
+        },
+        "roc_auc_per_class": {
+          "BENIGN": 0.9755073868827474,
+          "ATTACK": 0.9755074376419679
+        },
+        "roc_auc_macro_ovr": 0.9755074122623577,
+        "binary_attack_precision_macro": 0.9528499879246375,
+        "binary_attack_recall_macro": 0.9531831975082583,
+        "binary_attack_f1_macro": 0.9530143554032314,
+        "binary_attack_roc_auc": 0.9755073868827473
+      },
+      "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/autoencoder_ids.joblib"
+    }
+  ],
+  "smoke_mode": false
+}

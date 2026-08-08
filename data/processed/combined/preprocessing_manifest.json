@@ -1,0 +1,48 @@
+{
+  "dataset": "combined",
+  "input_rows": 100000,
+  "retained_rows": 100000,
+  "train_rows": 80000,
+  "test_rows": 20000,
+  "feature_count": 118,
+  "classes": [
+    "BENIGN",
+    "DDoS",
+    "DoS",
+    "Other Attack",
+    "Reconnaissance"
+  ],
+  "class_distribution": {
+    "BENIGN": 43883,
+    "DDoS": 30003,
+    "DoS": 24326,
+    "Reconnaissance": 1428,
+    "Other Attack": 360
+  },
+  "train_class_distribution": {
+    "BENIGN": 35106,
+    "DDoS": 24003,
+    "DoS": 19461,
+    "Reconnaissance": 1142,
+    "Other Attack": 288
+  },
+  "test_class_distribution": {
+    "BENIGN": 8777,
+    "DDoS": 6000,
+    "DoS": 4865,
+    "Reconnaissance": 286,
+    "Other Attack": 72
+  },
+  "source_distribution": {
+    "cicids2017": 50000,
+    "bot-iot": 50000
+  },
+  "train_source_distribution": {
+    "bot-iot": 40027,
+    "cicids2017": 39973
+  },
+  "test_source_distribution": {
+    "cicids2017": 10027,
+    "bot-iot": 9973
+  }
+}

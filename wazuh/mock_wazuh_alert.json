@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "origin": {
+    "name": "wazuh-manager",
+    "module": "wazuh-execd"
+  },
+  "command": "add",
+  "parameters": {
+    "extra_args": [],
+    "alert": {
+      "timestamp": "2026-06-08T12:00:00+00:00",
+      "rule": {
+        "level": 10,
+        "description": "SOC-ready IDS denial-of-service flow",
+        "id": "100103",
+        "groups": [
+          "soc_ready_ids",
+          "soc_ready_ids_raw",
+          "availability"
+        ]
+      },
+      "agent": {
+        "id": "000",
+        "name": "wazuh-manager"
+      },
+      "manager": {
+        "name": "wazuh-manager"
+      },
+      "id": "mock-wazuh-alert-001",
+      "decoder": {
+        "name": "soc-ready-ids"
+      },
+      "data": {
+        "dataset": "CICIDS2017",
+        "attack_type": "DDoS",
+        "srcip": "10.0.2.208",
+        "dstip": "192.168.10.22",
+        "dstport": "8080",
+        "confidence": "0.95",
+        "asset_criticality": "80",
+        "flow_packets_s": "106.9330017037",
+        "syn_count": "2",
+        "Destination Port": 8080,
+        "Flow Duration": 61822.325258817,
+        "Total Fwd Packets": 17,
+        "Total Backward Packets": 8,
+        "Total Length of Fwd Packets": 3518.1344645786,
+        "Total Length of Bwd Packets": 1119.0999755415,
+        "Flow Bytes/s": 3905.5172049634,
+        "Flow Packets/s": 106.9330017037,
+        "Fwd Packet Length Mean": 423.1993745452,
+        "Bwd Packet Length Mean": 350.1738208661,
+        "SYN Flag Count": 2,
+        "ACK Flag Count": 1,
+        "Protocol": 6
+      },
+      "location": "/var/ossec/logs/soc-ready-ids-input.log"
+    },
+    "program": "/var/ossec/active-response/bin/active_response.py"
+  }
+}

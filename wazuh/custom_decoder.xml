@@ -1,0 +1,5 @@
+<decoder name="soc-ready-ids">
+  <prematch>^SOC_READY_IDS\|</prematch>
+  <regex type="pcre2">^SOC_READY_IDS\|dataset=([^|]+)\|attack_type=([^|]+)\|srcip=([^|]+)\|dstip=([^|]+)\|dstport=([^|]+)\|confidence=([^|]+)\|asset_criticality=([^|]+)\|flow_packets_s=([^|]+)\|syn_count=([^|]+)$</regex>
+  <order>dataset,attack_type,srcip,dstip,dstport,confidence,asset_criticality,flow_packets_s,syn_count</order>
+</decoder>
