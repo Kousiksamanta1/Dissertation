@@ -203,3 +203,56 @@ make wazuh DATASET=combined
 
 This parses the XML and processes `wazuh/mock_wazuh_alert.json` through the
 actual active-response code using temporary SQLite and output files.
+
+## 8. Live IDS Source With Suricata
+
+After the project dashboard is working, connect a live IDS source. Use this
+only on a host, VM, lab, or network segment that you are authorized to monitor.
+
+Install Suricata and the project bridge on the Wazuh manager:
+
+```bash
+cd /opt/soc-ready-ids
+git pull origin main
+sudo bash wazuh/install_suricata_bridge.sh
+```
+
+The script:
+
+- installs Suricata and `jq`
+- updates the default Suricata rules
+- starts Suricata on the default network interface
+- starts `soc-ready-suricata-bridge.service`
+- converts Suricata EVE `alert` events into `SOC_READY_IDS|...` lines
+- writes those lines to `/var/ossec/logs/soc-ready-ids-input.log`
+
+If the wrong interface is detected, rerun with the interface name:
+
+```bash
+ip -o -4 route show to default
+sudo IFACE=enp0s1 bash wazuh/install_suricata_bridge.sh
+```
+
+Check the services:
+
+```bash
+sudo systemctl status suricata --no-pager
+sudo systemctl status soc-ready-suricata-bridge --no-pager
+sudo tail -f /var/log/suricata/eve.json
+sudo tail -f /var/ossec/logs/soc-ready-ids-input.log
+sudo tail -f /var/ossec/logs/soc-ready-ids-enriched.json
+```
+
+To run the standard Suricata IDS alert test from the official quickstart:
+
+```bash
+curl http://testmynids.org/uid/index.html
+sleep 30
+sudo tail -n 3 /var/ossec/logs/soc-ready-ids-enriched.json | python3 -m json.tool
+```
+
+Then refresh the Wazuh dashboard with:
+
+```text
+data.integration : "soc-ready-ids"
+```

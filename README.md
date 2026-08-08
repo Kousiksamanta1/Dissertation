@@ -241,6 +241,16 @@ collection under Wazuh. It does not retrain the datasets or run experiments.
 Dashboard fields such as `data.attack_type`, `data.risk_score`, and
 `data.explanation_text` appear after Wazuh indexes enriched project alerts.
 
+To connect a live IDS source after the dashboard is working:
+
+```bash
+cd /opt/soc-ready-ids
+sudo bash wazuh/install_suricata_bridge.sh
+```
+
+This starts Suricata and a bridge that sends Suricata EVE alerts through the
+same SOC-ready Wazuh enrichment path.
+
 Official references:
 
 - [Wazuh quickstart](https://documentation.wazuh.com/current/quickstart.html)
