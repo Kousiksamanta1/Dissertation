@@ -228,6 +228,19 @@ Deployment instructions are in
 dissertation evidence to capture from a real deployment is listed in
 [`reports/wazuh_opensearch_evidence_checklist.md`](reports/wazuh_opensearch_evidence_checklist.md).
 
+For the full Wazuh deployment on the Ubuntu manager, use the combined
+CICIDS2017 plus BoT-IoT model:
+
+```bash
+cd /opt/soc-ready-ids
+sudo bash wazuh/deploy_project.sh
+```
+
+This installs the real model-backed active response and enriched alert
+collection under Wazuh. It does not retrain the datasets or run experiments.
+Dashboard fields such as `data.attack_type`, `data.risk_score`, and
+`data.explanation_text` appear after Wazuh indexes enriched project alerts.
+
 Official references:
 
 - [Wazuh quickstart](https://documentation.wazuh.com/current/quickstart.html)

@@ -27,7 +27,55 @@ sudo systemctl status wazuh-indexer
 sudo systemctl status wazuh-dashboard
 ```
 
-## 2. Deploy the Research Project
+## 2. Deploy the Full Project Into Wazuh
+
+Use the automated deployment script from the cloned repository on the Wazuh
+manager. This installs the combined CICIDS2017 plus BoT-IoT model as the
+production Wazuh integration path.
+
+```bash
+cd /opt/soc-ready-ids
+sudo bash wazuh/deploy_project.sh
+```
+
+The script performs the full Wazuh-side setup:
+
+- keeps the project deployed at `/opt/soc-ready-ids`
+- creates `/opt/soc-ready-ids/.venv`
+- installs Wazuh runtime dependencies from `requirements-wazuh.txt`
+- verifies the real combined XGBoost model can load
+- installs the custom decoder and rules
+- installs the active-response script
+- creates the raw input and enriched JSON logs
+- updates `/var/ossec/etc/ossec.conf` without creating a second
+  `<ossec_config>` block
+- validates the Wazuh manager configuration
+- restarts `wazuh-manager`
+
+Default deployment values:
+
+```text
+Project root: /opt/soc-ready-ids
+Dataset/model: combined
+Raw input log: /var/ossec/logs/soc-ready-ids-input.log
+Enriched log: /var/ossec/logs/soc-ready-ids-enriched.json
+SQLite DB: /opt/soc-ready-ids/data/runtime/combined/alerts.db
+Dashboard filter: rule.groups: "soc_ready_ids_enriched"
+```
+
+If the Python dependencies are already installed and you only want to reinstall
+the Wazuh files/configuration:
+
+```bash
+cd /opt/soc-ready-ids
+sudo INSTALL_DEPS=0 bash wazuh/deploy_project.sh
+```
+
+This is the real Wazuh deployment path. It does not train models and it does
+not run dataset experiments. Wazuh dashboard fields appear after real IDS/flow
+events are written to the raw input log and enriched by the active response.
+
+## 3. Manual Deployment Reference
 
 Deploy this repository at `/opt/soc-ready-ids`:
 
@@ -50,7 +98,7 @@ The supplied `wazuh/ossec.conf` selects `DATASET=combined`. For a
 source-specific deployment, change it to `cicids2017` or `bot-iot`. Set
 `SOC_READY_IDS_DATASET` to the same value when using an environment override.
 
-## 3. Install Decoder and Rules
+## 4. Install Decoder and Rules
 
 Wazuh reserves custom rule IDs `100000` through `120000`. This project uses
 IDs `100100` through `100112`.
@@ -79,7 +127,7 @@ SOC_READY_IDS|dataset=CICIDS2017|attack_type=DDoS|srcip=10.0.0.5|dstip=192.168.1
 The decoded event should contain `srcip`, `dstip`, `attack_type`, and the
 remaining custom fields.
 
-## 4. Install the Active Response
+## 5. Install the Active Response
 
 The script is stateless: it handles Wazuh `command: add`, runs the triage
 pipeline, stores the result in SQLite, and appends enriched JSON to a monitored
@@ -120,7 +168,7 @@ sudo systemctl status wazuh-manager
 sudo tail -f /var/ossec/logs/ossec.log
 ```
 
-## 5. End-to-End Test
+## 6. End-to-End Health Check
 
 Inject a raw IDS event:
 
@@ -139,10 +187,10 @@ sudo sqlite3 /opt/soc-ready-ids/data/runtime/combined/alerts.db \
 
 The enriched event is collected by Wazuh's JSON decoder and indexed for the
 dashboard. The active response does not mutate the original Wazuh alert; it
-creates a correlated enrichment event, which is the supported observable
-return path.
+creates a correlated enrichment event, which is the supported observable return
+path. This is a deployment health check, not a model-training experiment.
 
-## 6. Local Validation Without Wazuh
+## 7. Local Validation Without Wazuh
 
 From this repository:
 

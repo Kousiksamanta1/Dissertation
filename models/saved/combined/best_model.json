@@ -2,7 +2,7 @@
   "best_model": "xgboost_ids",
   "selection_metric": "f1_macro",
   "selection_score": 0.9845079483860484,
-  "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/xgboost_ids.joblib",
+  "artifact_path": "xgboost_ids.joblib",
   "all_results": [
     {
       "model": "random_forest",
@@ -75,7 +75,7 @@
         "binary_attack_f1_macro": 0.9983757855449766,
         "binary_attack_roc_auc": 0.999957453621478
       },
-      "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/random_forest.joblib"
+      "artifact_path": "random_forest.joblib"
     },
     {
       "model": "xgboost_ids",
@@ -148,7 +148,7 @@
         "binary_attack_f1_macro": 0.9989341488725381,
         "binary_attack_roc_auc": 0.9999877873315768
       },
-      "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/xgboost_ids.joblib"
+      "artifact_path": "xgboost_ids.joblib"
     },
     {
       "model": "autoencoder_ids",
@@ -200,7 +200,7 @@
         "binary_attack_f1_macro": 0.9530143554032314,
         "binary_attack_roc_auc": 0.9755073868827473
       },
-      "artifact_path": "/Users/kousiksamanta/Documents/FINAL DISSERTATION/models/saved/combined/autoencoder_ids.joblib"
+      "artifact_path": "autoencoder_ids.joblib"
     }
   ],
   "smoke_mode": false
