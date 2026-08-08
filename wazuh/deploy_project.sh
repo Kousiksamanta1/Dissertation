@@ -119,6 +119,7 @@ patch_ossec_conf() {
   python3 - "${OSSEC_CONF}" "${PROJECT_ROOT}" "${DATASET}" "${INPUT_LOG}" "${ENRICHED_LOG}" "${DB_PATH}" <<'PY'
 from __future__ import annotations
 
+import copy
 import shutil
 import sys
 import time
@@ -132,10 +133,7 @@ input_log = sys.argv[4]
 enriched_log = sys.argv[5]
 db_path = sys.argv[6]
 
-tree = ET.parse(conf_path)
-root = tree.getroot()
-if root.tag != "ossec_config":
-    raise SystemExit(f"{conf_path} root element must be <ossec_config>.")
+raw_text = conf_path.read_text(encoding="utf-8")
 
 
 def child_text(element: ET.Element, name: str) -> str:
@@ -143,13 +141,44 @@ def child_text(element: ET.Element, name: str) -> str:
     return "" if child is None or child.text is None else child.text.strip()
 
 
-for element in list(root):
+def is_soc_ready_block(element: ET.Element) -> bool:
     tag = element.tag
     if tag == "localfile" and child_text(element, "location") in {input_log, enriched_log}:
-        root.remove(element)
-    elif tag == "command" and child_text(element, "name") == "soc-ready-ids-triage":
-        root.remove(element)
-    elif tag == "active-response" and child_text(element, "command") == "soc-ready-ids-triage":
+        return True
+    if tag == "command" and child_text(element, "name") == "soc-ready-ids-triage":
+        return True
+    if tag == "active-response" and child_text(element, "command") == "soc-ready-ids-triage":
+        return True
+    return False
+
+
+def load_config_children(text: str) -> list[ET.Element]:
+    try:
+        parsed = ET.fromstring(text)
+        if parsed.tag != "ossec_config":
+            raise SystemExit(f"{conf_path} root element must be <ossec_config>.")
+        return [copy.deepcopy(child) for child in list(parsed)]
+    except ET.ParseError:
+        # Earlier manual setup sometimes left multiple top-level blocks or
+        # project blocks after </ossec_config>. Wazuh may tolerate fragments in
+        # some cases, but ElementTree needs one root, so merge valid fragments.
+        wrapper = ET.fromstring(f"<soc_ready_ids_wrapper>{text}</soc_ready_ids_wrapper>")
+        children: list[ET.Element] = []
+        for element in list(wrapper):
+            if element.tag == "ossec_config":
+                children.extend(copy.deepcopy(child) for child in list(element))
+            else:
+                children.append(copy.deepcopy(element))
+        return children
+
+
+root = ET.Element("ossec_config")
+for child in load_config_children(raw_text):
+    if not is_soc_ready_block(child):
+        root.append(child)
+
+for element in list(root):
+    if is_soc_ready_block(element):
         root.remove(element)
 
 
@@ -186,6 +215,7 @@ append_text(active_response, "rules_group", "soc_ready_ids_raw")
 
 backup = conf_path.with_suffix(conf_path.suffix + f".soc-ready-ids.{int(time.time())}.bak")
 shutil.copy2(conf_path, backup)
+tree = ET.ElementTree(root)
 ET.indent(tree, space="  ")
 tree.write(conf_path, encoding="unicode", xml_declaration=False)
 conf_path.write_text(conf_path.read_text(encoding="utf-8") + "\n", encoding="utf-8")
