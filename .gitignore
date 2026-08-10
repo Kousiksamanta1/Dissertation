@@ -17,6 +17,7 @@ data/sample/*
 data/external/*
 models/saved/*
 results/
+reports/final_ieee_report/
 !data/raw/.gitkeep
 !data/raw/cicids2017/
 !data/raw/cicids2017/.gitkeep
