@@ -20,6 +20,27 @@ Ethics approval: **Ref 77771/2026**.
 
 No generated dataset fallback, Streamlit, or NSL-KDD components are used.
 
+## Final Results And Evidence
+
+Repository: <https://github.com/Kousiksamanta1/Dissertation>
+
+Final combined-model results: **99.875% accuracy**, **98.45% macro-F1**,
+**99.89% binary attack F1**, **78.0% alert reduction**, **100.0% true-positive
+preservation**, and **95.3% explanation quality**. The dissertation PDF and
+LaTeX source are kept local; the evidence figures below are tracked for GitHub
+review.
+
+| Model evaluation | SOC triage |
+| --- | --- |
+| <img src="reports/final_ieee_report/figures/ids_model_comparison.png" alt="IDS model comparison" width="420"> | <img src="reports/final_ieee_report/figures/triage_kpis.png" alt="Triage KPI summary" width="420"> |
+| <img src="reports/final_ieee_report/figures/xgboost_confusion_matrix.png" alt="XGBoost confusion matrix" width="420"> | <img src="reports/final_ieee_report/figures/triage_ablation_comparison.png" alt="Triage ablation comparison" width="420"> |
+
+| Explainability | Wazuh deployment |
+| --- | --- |
+| <img src="reports/final_ieee_report/figures/feature_importance_top20.png" alt="Top 20 feature importance" width="420"> | <img src="reports/final_ieee_report/figures/service_status_evidence.png" alt="Wazuh and Suricata services active" width="420"> |
+| <img src="reports/final_ieee_report/figures/xgboost_ids_shap_feature_importance.png" alt="SHAP feature importance" width="420"> | <img src="reports/final_ieee_report/figures/wazuh_discover_suricata_monitoring.png" alt="Wazuh Discover Suricata monitoring evidence" width="420"> |
+| <img src="reports/final_ieee_report/figures/evaluation_example_alert_shap_waterfall.png" alt="Local SHAP waterfall explanation" width="420"> | <img src="reports/final_ieee_report/figures/explanation_quality_scs.png" alt="Explanation quality SCS result" width="420"> |
+
 ## Setup
 
 ```bash
